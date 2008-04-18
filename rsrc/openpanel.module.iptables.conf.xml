@@ -1,0 +1,12 @@
+<openpanel.module.awstats>
+
+	<config>
+		<local:staging>/var/opencore/conf/staging/IPTables/</local:staging>
+		<iptables:rcfilename>rc.firewall</iptables:rcfilename>
+		<iptables:destdir>/etc/openpanel</iptables:destdir>
+		<iptables:denymethod>DROP</iptables:denymethod>
+		<iptables:servicename>iptables</iptables:servicename>
+		<authd:scriptname>iptables-update</authd:scriptname>
+	</config>
+	
+</openpanel.module.awstats>

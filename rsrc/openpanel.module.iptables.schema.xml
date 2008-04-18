@@ -1,0 +1,43 @@
+<xml.schema>
+
+	<xml.class name="openpanel.module.awstats">
+		<xml.type>dict</xml.type>
+		<xml.proplist>
+			<xml.member class="config"	id="config"/>
+		</xml.proplist>
+	</xml.class>
+
+	<xml.class name="config">
+		<xml.type>dict</xml.type>
+		<xml.proplist>
+			<xml.member class="local:staging"		id="local:staging"/>
+			<xml.member class="iptables:rcfilename"	id="iptables:rcfilename"/>
+			<xml.member class="iptables:denymethod"	id="iptables:denymethod"/>
+			<xml.member class="iptables:servicename" id="iptables:servicename"/>
+			<xml.member class="iptables:destdir"	id="iptables:destdir"/>
+			<xml.member class="authd:scriptname"	id="authd:scriptname"/>
+		</xml.proplist>
+	</xml.class>
+	
+	<xml.class name="local:staging">
+		<xml.type>string</xml.type>
+	</xml.class>
+
+	<xml.class name="iptables:rcfilename">
+		<xml.type>string</xml.type>
+	</xml.class>
+
+	<xml.class name="iptables:denymethod">
+		<xml.type>string</xml.type>
+	</xml.class>
+
+	<xml.class name="iptables:servicename">
+		<xml.type>string</xml.type>
+	</xml.class>
+	
+	<xml.class name="authd:scriptname">
+		<xml.type>string</xml.type>
+	</xml.class>
+
+	
+</xml.schema>

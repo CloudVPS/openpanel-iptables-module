@@ -1,0 +1,9 @@
+#!/bin/bash
+SCRIPT_NAME="/etc/openpanel/rc.firewall"
+
+if [ -f $SCRIPT_NAME ]; then
+	exec $SCRIPT_NAME
+else
+	echo "No IpTables configuration script found"
+	exit 1
+fi

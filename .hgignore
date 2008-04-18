@@ -1,0 +1,7 @@
+syntax: glob
+iptablesmodule.app
+*.o
+makeinclude
+platform.h
+ktrace.out
+module.xml

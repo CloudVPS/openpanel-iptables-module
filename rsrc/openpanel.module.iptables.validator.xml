@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grace.validator>
+  <datarule id="root">
+    <match.mandatory>
+		  <mandatory type="child" key="config"/>
+    </match.mandatory>
+    <match.child>
+      <and>
+        <match.id>config</match.id>
+      </and>
+    </match.child>
+  </datarule>
+</grace.validator>

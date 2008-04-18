@@ -1,0 +1,5 @@
+CONFIG_INSTALLROOT="/Users/pi/"
+CONFIG_BINPATH="/Users/pi/bin"
+CONFIG_LIBPATH="/Users/pi/lib"
+CONFIG_CONFPATH="/Users/pi/Library/Preferences"
+CONFIG_INCLUDEPATH="/Users/pi/include"

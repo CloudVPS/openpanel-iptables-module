@@ -1,0 +1,114 @@
+# ============================================================================
+# OpenPanel IPTables.module for firewall configuration
+# Copyright (C) 2008 PanelSix V.O.F.
+# ============================================================================
+module IPTables				< uuid 7b8b62c2-22e2-4e0e-b7b0-92cf22a48222
+							< version 1.0
+							< languages en_EN
+							< apitype xml
+							< getconfig true
+
+
+# ============================================================================
+# CLASSES
+# ============================================================================
+class IPTables				< uuid 72d4c56d-c934-44fa-a2ae-0fde339336d0
+							< version 1
+							< indexing manual
+							< singleton firewall
+							< allchildren true
+							< shortname firewall
+							< title Firewall
+							< description IPTables firewall configuration
+							< explanation iptables.html
+							< icon firewall.png
+							
+							< capabilities update admin
+							
+	bool enabled			: Enabled
+	bool blockall			: Block ports by default
+
+
+# ----------------------------------------------------------------------------
+class IPTables:Port			< uuid fa0cbb27-cf9d-44c7-80aa-77ba860deb76
+							< version 1
+							< requires IPTables
+							< indexing manual
+							< uniquein parent
+							< allchildren true
+							< shortname port
+							< title Port
+							< description TCP/UDP port configuration
+							
+							< capabilities update create delete admin
+							
+	integer id				: Port Number
+							< example 25
+							< gridwidth 15
+	
+	string description		: Description
+							< example SMTP
+							< tooltip An illustrative description of the port number.
+							< gridwidth 33
+	
+	enum state				: Access
+							< default deny
+							< gridwidth 20
+	
+	enum filter				: Protocols
+							< default tcp
+							< gridwidth 30
+	
+
+# ----------------------------------------------------------------------------
+class IPTables:Port:Rule	< uuid 4462d853-73a2-43ae-9ab7-576668319c5d
+							< version 1
+							< requires IPTables:Port
+							< indexing auto
+							< uniquein parent
+							< shortname rule
+							< title Rule
+							< description Port rule
+							< explanation rule.html
+							
+							< capabilities create update delete admin
+							
+	string ip				: IP address
+							< regexp [:ipv4:]
+							< example 10.20.30.40
+							< gridwidth 38
+	
+	string subnet			: Subnet
+							< regexp [:ipv4:]
+							< example 255.255.255.0
+							< gridwidth 40
+	
+	enum state				: Access
+							< default permit
+							< gridwidth 20
+
+
+# ============================================================================
+# ENUMS
+# ============================================================================
+enum state
+	value permit			: Permit
+	value deny				: Deny
+	
+enum filter
+	value tcp				: TCP
+	value udp				: UDP
+	value tcp-udp			: TCP+UDP
+	
+
+# ============================================================================
+# AUTHD
+# ============================================================================
+authd fileops
+	match rc.firewall		: /etc/openpanel
+							< user root
+							< group root
+							< perms 0700
+
+authd scripts
+	script iptables-update

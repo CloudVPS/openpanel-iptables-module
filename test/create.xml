@@ -1,0 +1,48 @@
+1563
+<openpanel.module.mysql>
+
+	<string id="OpenCORE:Command">create</string>
+	<dict id="OpenCORE:Session">
+		<string id="classid">Iptables</string>
+		<string id="objectid">152f9481-9903-4ffe-a580-09c29e0f0133</string>
+	</dict>
+	<dict id="IPTables" type="class">
+		<string id="id">30d71337-035f-44af-0714-721c4e4bb58f</string>
+		<string id="enabled">true</string>
+		<string id="blockall">true</string>
+		<dict id="IPTables:Port" type="class">
+			<dict id="25" type="object">
+				<string id="description">SMTP</string>
+				<string id="state">openpanel-allow</string>
+				<string id="filter">tcp-udp</string>
+				<dict id="Port:Rule" type="class">
+					<dict id="someuid" type="object">
+						<string id="ip">192.168.0.0/16</string>
+						<string id="state">openpanel-allow</string>
+					</dict>
+				</dict>
+			</dict>
+			<dict id="80" type="object">
+				<string id="description">HTTP</string>
+				<string id="state">openpanel-allow</string>
+				<string id="filter">tcp</string>
+				<dict id="Port:Rule" type="class">
+					<dict id="someuid" type="object">
+						<string id="ip">192.168.2.0/24</string>
+						<string id="state">openpanel-allow</string>
+					</dict>
+					<dict id="someuid" type="object">
+						<string id="ip">192.168.1.0/24</string>
+						<string id="state">openpanel-allow</string>
+					</dict>
+				</dict>
+			</dict>
+			<dict id="53" type="object">
+				<string id="description">DNS</string>
+				<string id="state">openpanel-allow</string>
+				<string id="filter">udp</string>
+			</dict>
+		</dict>
+	</dict>                 	
+
+</openpanel.module.mysql>

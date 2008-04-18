@@ -1,0 +1,6 @@
+#include "version.h"
+
+const char *MODULE_VERSION = "%BUILD_VERSION%";
+const char *MODULE_VERSION_FULL = "%BUILD_VERSION% %BUILD_USER%@%BUILD_HOST% %BUILD_DATE%";
+const char *MODULE_VERSION_MAGIC = "$MAGIC_VERSION$ %BUILD_VERSION%";
+
