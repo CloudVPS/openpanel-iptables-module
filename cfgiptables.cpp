@@ -77,8 +77,12 @@ void cfgiptables::buildfromval (const value &v)
 		{
 			string target;
 			string srcip;
+			string nmask;
 			
 			srcip = rule["ip"].sval().filter ("0123456789.");
+			nmask = rule["subnet"].sval().filter ("0123456789.");
+			
+			if (! nmask) nmask = "255.255.255.255";
 			
 			caseselector (rule["state"])
 			{
@@ -87,18 +91,18 @@ void cfgiptables::buildfromval (const value &v)
 				defaultcase : target = "openpanel-deny"; break;
 			}
 			
-			if (port["filter"] == "tcp" || 
-				port["filter"] == "tcp-udp")
-			{
-				out += "$IPTABLES -A openpanel -p tcp -s %s --dport %i "
-				       "-j %s\n" %format (srcip, dport, target);
-			}
-			if (port["filter"] == "udp" || 
-				port["filter"] == "tcp-udp")
-			{
-				out += "$IPTABLES -A openpanel -p udp -s %s --dport %i "
-					   "-j %s\n" %format (srcip, dport, target);
-			}
+            if (port["filter"] == "tcp" || 
+                port["filter"] == "tcp-udp")
+            {
+                out += "$IPTABLES -A openpanel -p tcp -s %s/%s --dport %i "
+                       "-j %s\n" %format (srcip, nmask, dport, target);
+            }
+            if (port["filter"] == "udp" || 
+                port["filter"] == "tcp-udp")
+            {
+                out += "$IPTABLES -A openpanel -p udp -s %s/%s --dport %i "
+                       "-j %s\n" %format (srcip, nmask, dport, target);
+            }
 		}
 		
 		string ptarget;
