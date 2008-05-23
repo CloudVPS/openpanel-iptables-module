@@ -196,17 +196,6 @@ stop() {
     flush_n_delete
     set_policy ACCEPT
     
-    if [ "x$IPTABLES_MODULES_UNLOAD" = "xyes" ]; then
-	echo -n $"Unloading $IPTABLES modules: "
-	ret=0
-	rmmod_r ${IPV}_tables
-	let ret+=$?;
-	rmmod_r ${IPV}_conntrack
-	let ret+=$?;
-	[ $ret -eq 0 ] && success || failure
-	echo
-    fi
-    
     rm -f $VAR_SUBSYS_IPTABLES
     return $ret
 }
