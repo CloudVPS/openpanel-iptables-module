@@ -154,17 +154,17 @@ bool iptablesmodule::readconfiguration (void)
 	               				$("21",
 	               					$("description", "ftp") ->
 	               					$("state", "permit") ->
-	               					$("filter", "tcp-udp")
+	               					$("filter", "tcp")
 	               				 ) ->
 	               				$("22",
 	               					$("description", "ssh") ->
 	               					$("state", "permit") ->
-	               					$("filter", "tcp-udp")
+	               					$("filter", "tcp")
 	               				 ) ->
 	               				$("25",
 	               					$("description", "smtp") ->
 	               					$("state", "permit") ->
-	               					$("filter", "tcp-udp")
+	               					$("filter", "tcp")
 	               				 ) ->
 	               				$("53",
 	               					$("description","dns") ->
@@ -174,27 +174,22 @@ bool iptablesmodule::readconfiguration (void)
 	               				$("80",
 	               					$("description","http") ->
 	               					$("state", "permit") ->
-	               					$("filter", "tcp-udp")
+	               					$("filter", "tcp")
 	               				 ) ->
 	               				$("110",
 	               					$("description","pop3") ->
 	               					$("state", "permit") ->
-	               					$("filter", "tcp-udp")
+	               					$("filter", "tcp")
 	               				 ) ->
 	               				$("143",
 	               					$("description","imap") ->
 	               					$("state", "permit") ->
-	               					$("filter", "tcp-udp")
+	               					$("filter", "tcp")
 	               				 ) ->
 	               				$("4089",
 	               					$("description","openpanel") ->
 	               					$("state", "permit") ->
-	               					$("filter", "tcp-udp")
-	               				 ) ->
-	               				$("6667",
-	               					$("description","irc") ->
-	               					$("state", "permit") ->
-	               					$("filter", "tcp-udp")
+	               					$("filter", "tcp")
 	               				 )
 	               			 )
 	               		 )
