@@ -152,37 +152,47 @@ bool iptablesmodule::readconfiguration (void)
 	               			$("IPTables:Port",
 	               				$attr("type", "class") ->
 	               				$("21",
-	               					$("description", "ftp") ->
+	               					$("description", "FTP") ->
 	               					$("state", "permit") ->
 	               					$("filter", "tcp")
 	               				 ) ->
 	               				$("22",
-	               					$("description", "ssh") ->
+	               					$("description", "Secure Shell (SSH)") ->
 	               					$("state", "permit") ->
 	               					$("filter", "tcp")
 	               				 ) ->
 	               				$("25",
-	               					$("description", "smtp") ->
+	               					$("description", "SMTP") ->
 	               					$("state", "permit") ->
 	               					$("filter", "tcp")
 	               				 ) ->
 	               				$("53",
-	               					$("description","dns") ->
+	               					$("description","DNS") ->
 	               					$("state", "permit") ->
 	               					$("filter", "tcp-udp")
 	               				 ) ->
 	               				$("80",
-	               					$("description","http") ->
+	               					$("description","Websites (HTTP)") ->
 	               					$("state", "permit") ->
 	               					$("filter", "tcp")
 	               				 ) ->
 	               				$("110",
-	               					$("description","pop3") ->
+	               					$("description","POP3 mailbox") ->
 	               					$("state", "permit") ->
 	               					$("filter", "tcp")
 	               				 ) ->
+	               				$("111",
+	               					$("description","Sun RPC service") ->
+	               					$("state", "deny") ->
+	               					$("filter", "tcp-udp")
+	               				 ) ->
 	               				$("143",
-	               					$("description","imap") ->
+	               					$("description","IMAP mailbox") ->
+	               					$("state", "permit") ->
+	               					$("filter", "tcp")
+	               				 ) ->
+	               				$("443",
+	               					$("description","Websites with SSL") ->
 	               					$("state", "permit") ->
 	               					$("filter", "tcp")
 	               				 ) ->
