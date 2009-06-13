@@ -162,7 +162,7 @@ bool iptablesmodule::readconfiguration (void)
 	               					$("filter", "tcp")
 	               				 ) ->
 	               				$("25",
-	               					$("description", "SMTP") ->
+	               					$("description", "Incoming E-mail (SMTP)") ->
 	               					$("state", "permit") ->
 	               					$("filter", "tcp")
 	               				 ) ->
@@ -177,7 +177,7 @@ bool iptablesmodule::readconfiguration (void)
 	               					$("filter", "tcp")
 	               				 ) ->
 	               				$("110",
-	               					$("description","POP3 mailbox") ->
+	               					$("description","E-mail (POP3)") ->
 	               					$("state", "permit") ->
 	               					$("filter", "tcp")
 	               				 ) ->
@@ -187,17 +187,17 @@ bool iptablesmodule::readconfiguration (void)
 	               					$("filter", "tcp-udp")
 	               				 ) ->
 	               				$("143",
-	               					$("description","IMAP mailbox") ->
+	               					$("description","E-mail (IMAP)") ->
 	               					$("state", "permit") ->
 	               					$("filter", "tcp")
 	               				 ) ->
 	               				$("443",
-	               					$("description","Websites with SSL") ->
+	               					$("description","Websites (HTTPS)") ->
 	               					$("state", "permit") ->
 	               					$("filter", "tcp")
 	               				 ) ->
 	               				$("4089",
-	               					$("description","openpanel") ->
+	               					$("description","OpenPanel Interface") ->
 	               					$("state", "permit") ->
 	               					$("filter", "tcp")
 	               				 )

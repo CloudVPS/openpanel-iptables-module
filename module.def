@@ -58,6 +58,7 @@ class IPTables:Port			< uuid fa0cbb27-cf9d-44c7-80aa-77ba860deb76
 	enum filter				: Protocols
 							< default tcp
 							< gridwidth 30
+							< sameline true
 	
 
 # ----------------------------------------------------------------------------
@@ -77,11 +78,14 @@ class IPTables:Port:Rule	< uuid 4462d853-73a2-43ae-9ab7-576668319c5d
 							< regexp [:ipv4:]
 							< example 10.20.30.40
 							< gridwidth 38
+							< textwidth 18
 	
 	string subnet			: Subnet
 							< regexp [:ipv4:]
 							< example 255.255.255.0
 							< gridwidth 40
+							< textwidth 18
+							< sameline true
 	
 	enum state				: Access
 							< default permit
