@@ -7,6 +7,9 @@ module IPTables				< uuid 7b8b62c2-22e2-4e0e-b7b0-92cf22a48222
 							< languages en_EN
 							< apitype xml
 							< getconfig true
+							< license GPL2
+							< author OpenPanel V.O.F.
+							< url http://www.openpanel.com/
 
 
 # ============================================================================
