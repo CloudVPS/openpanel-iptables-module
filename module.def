@@ -70,9 +70,9 @@ class IPTables:Port:Rule	< uuid 4462d853-73a2-43ae-9ab7-576668319c5d
 							< requires IPTables:Port
 							< indexing auto
 							< uniquein parent
-							< shortname rule
-							< title Rule
-							< description Port rule
+							< shortname exception
+							< title Exception
+							< description Port exception
 							< explanation rule.html
 							
 							< capabilities create update delete admin
@@ -83,7 +83,7 @@ class IPTables:Port:Rule	< uuid 4462d853-73a2-43ae-9ab7-576668319c5d
 							< gridwidth 38
 							< textwidth 18
 	
-	string subnet			: Subnet
+	enum subnet				: Subnet
 							< regexp [:ipv4:]
 							< example 255.255.255.0
 							< gridwidth 40
@@ -106,6 +106,25 @@ enum filter
 	value tcp				: TCP
 	value udp				: UDP
 	value tcp-udp			: TCP+UDP
+
+enum subnet
+	255.255.255.255			: /32
+	255.255.255.254			: /31
+	255.255.255.252			: /30
+	255.255.255.248			: /29
+	255.255.255.240			: /28
+	255.255.255.224			: /27
+	255.255.255.192			: /26
+	255.255.255.128			: /25
+	255.255.255.0			: /24
+	255.255.254.0			: /23
+	255.255.252.0			: /22
+	255.255.248.0			: /21
+	255.255.240.0			: /20
+	255.255.224.0			: /19
+	255.255.192.0			: /18
+	255.255.128.0			: /17
+	255.255.0.0				: /16
 	
 
 # ============================================================================
