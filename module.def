@@ -74,6 +74,7 @@ class IPTables:Port:Rule	< uuid 4462d853-73a2-43ae-9ab7-576668319c5d
 							< title Exception
 							< description Port exception
 							< explanation rule.html
+							< emptytext No exceptions configured for this port.
 							
 							< capabilities create update delete admin
 							
