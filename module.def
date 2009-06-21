@@ -48,6 +48,7 @@ class IPTables:Port			< uuid fa0cbb27-cf9d-44c7-80aa-77ba860deb76
 	integer id				: Port Number
 							< example 25
 							< gridwidth 15
+							< gridlabel Port
 	
 	string description		: Description
 							< example SMTP
