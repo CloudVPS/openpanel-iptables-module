@@ -23,6 +23,7 @@ class IPTables				< uuid 72d4c56d-c934-44fa-a2ae-0fde339336d0
 							< shortname firewall
 							< title Firewall
 							< description IPTables firewall configuration
+							< sortindex 85
 							< explanation iptables.html
 							< icon firewall.png
 							
