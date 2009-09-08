@@ -1,0 +1,39 @@
+#!/usr/bin/make -f
+
+
+BUILD_ROOT=$(CURDIR)/debian/tmp
+install:
+trm -rf ${BUILD_ROOT}
+tmkdir -p ${BUILD_ROOT}/var/opencore/modules/IPTables.module
+tcp -rf ./iptablesmodule.app ${BUILD_ROOT}/var/opencore/modules/IPTables.module/
+tln -s iptablesmodule.app/exec ${BUILD_ROOT}/var/opencore/modules/IPTables.module/action
+tcp module.xml ${BUILD_ROOT}/var/opencore/modules/IPTables.module/
+tcp *.png *.html ${BUILD_ROOT}/var/opencore/modules/IPTables.module/
+tinstall -m 755 verify ${BUILD_ROOT}/var/opencore/modules/IPTables.module/verify
+tmkdir -p ${BUILD_ROOT}/var/opencore/tools
+tcp -f ./tools/* ${BUILD_ROOT}/var/opencore/tools
+tchmod 755 ${BUILD_ROOT}/var/opencore/tools/*
+tmkdir -p ${BUILD_ROOT}/etc/init.d
+tmkdir -p ${BUILD_ROOT}/etc/iptables
+tcp -f ./init.d/openpanel-iptables.init ${BUILD_ROOT}/etc/init.d/iptables
+tcp -f ./init.d/iptables-config ${BUILD_ROOT}/etc/iptables/
+tchmod 600 ${BUILD_ROOT}/etc/iptables/iptables-config
+tchmod 755 ${BUILD_ROOT}/etc/init.d/iptables
+
+build:
+t./configure
+tmake
+binary-indep:
+
+binary-arch binary: build install
+	if [ -d debian/tmp ] ; then dh_install -a --sourcedir=debian/tmp ; fi
+	dh_installdocs -a
+	dh_installdeb -a
+	dh_compress -a
+	dh_fixperms -a
+	dh_shlibdeps -a
+	dh_gencontrol -a
+	dh_md5sums -a
+	dh_builddeb -a
+
+.PHONY: build binary binary-arch binary-indep clean install
