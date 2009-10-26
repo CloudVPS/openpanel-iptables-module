@@ -2,7 +2,7 @@ Source: openpanel-mod-iptables
 Section: misc
 Priority: optional
 Maintainer: OpenPanel/Panel6 packager <packages@panelsix.com>
-Build-Depends: debhelper (>= 5)
+Build-Depends: debhelper (>= 5), imagemagick
 Standards-Version: 3.7.2
 
 Package: openpanel-mod-iptables

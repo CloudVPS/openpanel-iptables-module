@@ -1,31 +1,31 @@
 #!/usr/bin/make -f
 
+build: build-stamp
+build-stamp:
+	./configure
+	make
+	touch build-stamp
 
-BUILD_ROOT=$(CURDIR)/debian/tmp
-install:
-trm -rf ${BUILD_ROOT}
-tmkdir -p ${BUILD_ROOT}/var/opencore/modules/IPTables.module
-tcp -rf ./iptablesmodule.app ${BUILD_ROOT}/var/opencore/modules/IPTables.module/
-tln -s iptablesmodule.app/exec ${BUILD_ROOT}/var/opencore/modules/IPTables.module/action
-tcp module.xml ${BUILD_ROOT}/var/opencore/modules/IPTables.module/
-tcp *.png *.html ${BUILD_ROOT}/var/opencore/modules/IPTables.module/
-tinstall -m 755 verify ${BUILD_ROOT}/var/opencore/modules/IPTables.module/verify
-tmkdir -p ${BUILD_ROOT}/var/opencore/tools
-tcp -f ./tools/* ${BUILD_ROOT}/var/opencore/tools
-tchmod 755 ${BUILD_ROOT}/var/opencore/tools/*
-tmkdir -p ${BUILD_ROOT}/etc/init.d
-tmkdir -p ${BUILD_ROOT}/etc/iptables
-tcp -f ./init.d/openpanel-iptables.init ${BUILD_ROOT}/etc/init.d/iptables
-tcp -f ./init.d/iptables-config ${BUILD_ROOT}/etc/iptables/
-tchmod 600 ${BUILD_ROOT}/etc/iptables/iptables-config
-tchmod 755 ${BUILD_ROOT}/etc/init.d/iptables
+install: install-stamp
+install-stamp: build-stamp
+	dh_testdir
+	dh_testroot
+	dh_installdirs
+	cp -rf ./iptablesmodule.app debian/openpanel-mod-iptables/var/opencore/modules/IPTables.module/
+	ln -s iptablesmodule.app/exec debian/openpanel-mod-iptables/var/opencore/modules/IPTables.module/action
+	cp module.xml debian/openpanel-mod-iptables/var/opencore/modules/IPTables.module/
+	cp *.png *.html debian/openpanel-mod-iptables/var/opencore/modules/IPTables.module/
+	install -m 755 verify debian/openpanel-mod-iptables/var/opencore/modules/IPTables.module/verify
+	cp -f ./tools/* debian/openpanel-mod-iptables/var/opencore/tools
+	chmod 755 debian/openpanel-mod-iptables/var/opencore/tools/*
+	cp -f ./init.d/openpanel-iptables.init debian/openpanel-mod-iptables/etc/init.d/iptables
+	cp -f ./init.d/iptables-config debian/openpanel-mod-iptables/etc/iptables/
+	chmod 600 debian/openpanel-mod-iptables/etc/iptables/iptables-config
+	chmod 755 debian/openpanel-mod-iptables/etc/init.d/iptables
 
-build:
-t./configure
-tmake
-binary-indep:
+binary-indep: build install
 
-binary-arch binary: build install
+binary-arch: build install
 	if [ -d debian/tmp ] ; then dh_install -a --sourcedir=debian/tmp ; fi
 	dh_installdocs -a
 	dh_installdeb -a
@@ -35,5 +35,12 @@ binary-arch binary: build install
 	dh_gencontrol -a
 	dh_md5sums -a
 	dh_builddeb -a
+
+binary: binary-indep binary-arch
+
+clean:
+	rm -f build-stamp install-stamp
+	[ ! -f makeinclude ] || make clean
+	dh_clean
 
 .PHONY: build binary binary-arch binary-indep clean install

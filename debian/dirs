@@ -1,0 +1,4 @@
+var/opencore/modules/IPTables.module
+var/opencore/tools
+etc/init.d
+etc/iptables
