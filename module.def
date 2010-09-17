@@ -63,7 +63,6 @@ class IPTables:Port			< uuid fa0cbb27-cf9d-44c7-80aa-77ba860deb76
 	enum filter				: Protocols
 							< default tcp
 							< gridwidth 30
-							< sameline true
 	
 
 # ----------------------------------------------------------------------------
