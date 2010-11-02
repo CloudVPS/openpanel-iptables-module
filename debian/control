@@ -2,7 +2,7 @@ Source: openpanel-mod-iptables
 Section: misc
 Priority: optional
 Maintainer: OpenPanel/Panel6 packager <packages@panelsix.com>
-Build-Depends: debhelper (>= 5), imagemagick, libgrace, libgrace-devel, openpanel-mkmodulexml, openpanel-core, openpanel-devel, zlib1g-dev, libssl-dev
+Build-Depends: debhelper (>= 5), imagemagick, libgrace, libgrace-dev, openpanel-mkmodulexml, openpanel-core, openpanel-dev, zlib1g-dev, libssl-dev
 Standards-Version: 3.7.2
 
 Package: openpanel-mod-iptables
