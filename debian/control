@@ -8,5 +8,5 @@ Standards-Version: 3.7.2
 Package: openpanel-mod-iptables
 Architecture: any
 Depends: openpanel-core (>= 0.8.3), iptables
-Description: Iptables Firewalling
+Description: OpenPanel module to configure Iptables Firewalling
  Openpanel user management module
