@@ -7,6 +7,7 @@ Standards-Version: 3.7.2
 
 Package: openpanel-mod-iptables
 Architecture: any
+Pre-Depends: openpanel-core, openpanel-authd
 Depends: openpanel-core (>= 0.8.3), iptables, ${shlibs:Depends}, ${misc:Depends}
 Description: OpenPanel module to configure Iptables Firewalling
  Openpanel user management module
