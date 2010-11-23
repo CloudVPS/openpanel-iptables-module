@@ -30,8 +30,8 @@ set -e
 
 case "$1" in
     configure)
-        mkdir -p /var/opencore/conf/staging/IPTables
-        chown opencore:authd /var/opencore/conf/staging/IPTables
+        mkdir -p /var/openpanel/conf/staging/IPTables
+        chown openpanel-core:openpanel-authd /var/openpanel/conf/staging/IPTables
         #echo "Running update-rc.d"
         update-rc.d iptables start 14 2 3 4 5 . stop 14 0 1 6 . >/dev/null
         invoke-rc.d openpanel-core reload

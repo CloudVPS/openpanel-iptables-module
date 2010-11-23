@@ -10,7 +10,7 @@
 #ifndef _iptablesmodule_H
 #define _iptablesmodule_H 1
 
-#include <moduleapp.h>
+#include <openpanel-core/moduleapp.h>
 #include <grace/system.h>
 #include <grace/configdb.h>
 

@@ -7,7 +7,7 @@
 // restrictions. For more information, please visit the Legal Information 
 // section of the OpenPanel website on http://www.openpanel.com/
 
-#include <moduleapp.h>
+#include <openpanel-core/moduleapp.h>
 #include "iptablesmodule.h"
 
 #include <grace/file.h>

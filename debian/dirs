@@ -1,4 +1,4 @@
-var/opencore/modules/IPTables.module
-var/opencore/tools
+var/openpanel/modules/IPTables.module
+var/openpanel/tools
 etc/init.d
 etc/iptables

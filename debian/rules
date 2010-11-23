@@ -19,13 +19,13 @@ install-stamp: build-stamp
 	dh_testdir
 	dh_testroot
 	dh_installdirs
-	cp -rf ./iptablesmodule.app debian/openpanel-mod-iptables/var/opencore/modules/IPTables.module/
-	ln -s iptablesmodule.app/exec debian/openpanel-mod-iptables/var/opencore/modules/IPTables.module/action
-	cp module.xml debian/openpanel-mod-iptables/var/opencore/modules/IPTables.module/
-	cp *.png *.html debian/openpanel-mod-iptables/var/opencore/modules/IPTables.module/
-	install -m 755 verify debian/openpanel-mod-iptables/var/opencore/modules/IPTables.module/verify
-	cp -f ./tools/* debian/openpanel-mod-iptables/var/opencore/tools
-	chmod 755 debian/openpanel-mod-iptables/var/opencore/tools/*
+	cp -rf ./iptablesmodule.app debian/openpanel-mod-iptables/var/openpanel/modules/IPTables.module/
+	ln -s iptablesmodule.app/exec debian/openpanel-mod-iptables/var/openpanel/modules/IPTables.module/action
+	cp module.xml debian/openpanel-mod-iptables/var/openpanel/modules/IPTables.module/
+	cp *.png *.html debian/openpanel-mod-iptables/var/openpanel/modules/IPTables.module/
+	install -m 755 verify debian/openpanel-mod-iptables/var/openpanel/modules/IPTables.module/verify
+	cp -f ./tools/* debian/openpanel-mod-iptables/var/openpanel/tools
+	chmod 755 debian/openpanel-mod-iptables/var/openpanel/tools/*
 	cp -f ./init.d/openpanel-iptables.init debian/openpanel-mod-iptables/etc/init.d/iptables
 	cp -f ./init.d/iptables-config debian/openpanel-mod-iptables/etc/iptables/
 	chmod 600 debian/openpanel-mod-iptables/etc/iptables/iptables-config

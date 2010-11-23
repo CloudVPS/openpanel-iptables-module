@@ -41,16 +41,16 @@ make
 %install
 BUILD_ROOT=$RPM_BUILD_ROOT
 rm -rf ${BUILD_ROOT}
-mkdir -p ${BUILD_ROOT}/var/opencore/modules/IPTables.module
-cp -rf ./iptablesmodule.app ${BUILD_ROOT}/var/opencore/modules/IPTables.module/
-ln -s iptablesmodule.app/exec ${BUILD_ROOT}/var/opencore/modules/IPTables.module/action
-cp module.xml ${BUILD_ROOT}/var/opencore/modules/IPTables.module/
-cp *.png *.html ${BUILD_ROOT}/var/opencore/modules/IPTables.module/
-install -m 755 verify ${BUILD_ROOT}/var/opencore/modules/IPTables.module/verify
+mkdir -p ${BUILD_ROOT}/var/openpanel/modules/IPTables.module
+cp -rf ./iptablesmodule.app ${BUILD_ROOT}/var/openpanel/modules/IPTables.module/
+ln -s iptablesmodule.app/exec ${BUILD_ROOT}/var/openpanel/modules/IPTables.module/action
+cp module.xml ${BUILD_ROOT}/var/openpanel/modules/IPTables.module/
+cp *.png *.html ${BUILD_ROOT}/var/openpanel/modules/IPTables.module/
+install -m 755 verify ${BUILD_ROOT}/var/openpanel/modules/IPTables.module/verify
 
 %post
-mkdir -p /var/opencore/conf/staging/IPTables
-chown opencore:authd /var/opencore/conf/staging/IPTables
+mkdir -p /var/openpanel/conf/staging/IPTables
+chown openpanel-core:openpanel-authd /var/openpanel/conf/staging/IPTables
 
 %files
 %defattr(-,root,root)
