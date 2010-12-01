@@ -41,6 +41,7 @@ class IPTables:Port			< uuid fa0cbb27-cf9d-44c7-80aa-77ba860deb76
 							< uniquein parent
 							< allchildren true
 							< shortname port
+							< sortindex 90
 							< title Port
 							< description TCP/UDP port configuration
 							
