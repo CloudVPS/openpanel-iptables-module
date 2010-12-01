@@ -1,12 +1,13 @@
 Source: openpanel-mod-iptables
 Section: misc
 Priority: optional
-Maintainer: OpenPanel/Panel6 packager <packages@panelsix.com>
-Build-Depends: debhelper (>= 5), imagemagick, libgrace, libgrace-devel, openpanel-mkmodulexml, openpanel-core, openpanel-devel, zlib1g-dev, libssl-dev
+Maintainer: OpenPanel packager <packages@openpanel.com>
+Build-Depends: debhelper (>= 5), imagemagick, libgrace, libgrace-dev, openpanel-dev
 Standards-Version: 3.7.2
 
 Package: openpanel-mod-iptables
 Architecture: any
-Depends: openpanel-core (>= 0.8.3), iptables
-Description: Iptables Firewalling
+Pre-Depends: openpanel-core, openpanel-authd
+Depends: openpanel-core (>= 0.8.3), iptables, ${shlibs:Depends}, ${misc:Depends}
+Description: OpenPanel module to configure Iptables Firewalling
  Openpanel user management module

@@ -16,7 +16,7 @@ version.cpp:
 
 iptablesmodule.exe: $(OBJ)
 	$(LD) $(LDFLAGS) -o iptablesmodule.exe $(OBJ) $(LIBS) \
-	/usr/lib/opencore/libcoremodule.a -lz -lssl
+	/usr/lib/opencore/libcoremodule.a
 
 clean:
 	rm -f *.o *.exe
