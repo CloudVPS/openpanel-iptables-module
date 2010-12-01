@@ -13,6 +13,15 @@
 # /etc/iptables/iptables will be the iptables dump
 # /etc/iptables/iptabled-config will be the default configuration
 
+### BEGIN INIT INFO
+# Provides:			iptables
+# Required-Start:	$syslog
+# Required-Stop:	$syslog
+# Default-Start:	2 3 4 5
+# Default-Stop:		0 1 6
+# Short-Description:	iptables
+### END INIT INFO
+
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 
 IPTABLES=iptables
