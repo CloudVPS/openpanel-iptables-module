@@ -33,8 +33,7 @@ case "$1" in
         mkdir -p /var/opencore/conf/staging/IPTables
         chown opencore:authd /var/opencore/conf/staging/IPTables
         #echo "Running update-rc.d"
-        #update-rc.d iptables start 14 2 3 4 5 . stop 14 0 1 6 . >/dev/null
-
+        update-rc.d iptables start 14 2 3 4 5 . stop 14 0 1 6 . >/dev/null
         invoke-rc.d openpanel-core reload
     ;;
 
