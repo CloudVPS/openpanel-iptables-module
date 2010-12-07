@@ -34,6 +34,7 @@ case "$1" in
         chown openpanel-core:openpanel-authd /var/openpanel/conf/staging/IPTables
         #echo "Running update-rc.d"
         update-rc.d iptables start 14 2 3 4 5 . stop 14 0 1 6 . >/dev/null
+        /sbin/iptables -L -n -v >/dev/null 2>&1
         invoke-rc.d openpanel-core reload
     ;;
 
