@@ -10,7 +10,7 @@
 SCRIPT_NAME="/etc/openpanel/rc.firewall"
 
 if [ -f $SCRIPT_NAME ]; then
-	exec $SCRIPT_NAME
+	$SCRIPT_NAME || exit 1
 	/etc/init.d/iptables save
 else
 	echo "No IpTables configuration script found"
