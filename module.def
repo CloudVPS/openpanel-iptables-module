@@ -74,7 +74,7 @@ class IPTables:Port			< uuid fa0cbb27-cf9d-44c7-80aa-77ba860deb76
 	
 
 # ----------------------------------------------------------------------------
-class IPTables:Port:Rule	< uuid 4462d853-73a2-43ae-9ab7-576668319c5d
+class Meta:IPTables:Rule	< uuid c84fdbc9-619b-403e-9a4a-ac809d00cf5f
 							< version 1
 							< requires IPTables:Port
 							< indexing auto
@@ -84,8 +84,31 @@ class IPTables:Port:Rule	< uuid 4462d853-73a2-43ae-9ab7-576668319c5d
 							< description Port exception
 							< explanation rule.html
 							< emptytext No exceptions configured for this port.
+
+							< metatype base
+	
+	string type				: Exception type
+							< gridwidth 10
+							< gridlabel Type
+	string description		: Description < gridwidth 40
+
+# ----------------------------------------------------------------------------
+class IPTables:Port:Rule	< uuid 4462d853-73a2-43ae-9ab7-576668319c5d
+							< version 1
+							< requires IPTables:Port
+							< indexing auto
+							< uniquein parent
+							< shortname v4exception
+							< title IPv4 Exception
+							< description IPv4 Port exception
+							< explanation rule.html
+							< emptytext No exceptions configured for this port.
 							
 							< capabilities create update delete admin
+							
+							< metatype derived
+							< metabase Meta:IPTables:Rule
+							< metadescription $state$ $ip$/$subnet$
 							
 	string ip				: IP address
 							< regexp [:ipv4:]
@@ -96,6 +119,41 @@ class IPTables:Port:Rule	< uuid 4462d853-73a2-43ae-9ab7-576668319c5d
 	enum subnet				: Subnet
 							< regexp [:ipv4:]
 							< example 255.255.255.0
+							< gridwidth 40
+							< textwidth 18
+							< sameline true
+	
+	enum state				: Access
+							< default permit
+							< gridwidth 20
+
+
+# ----------------------------------------------------------------------------
+class IPTables:Port:V6Rule	< uuid 2b400ea7-417c-4e87-b82c-a5a5adb58307
+							< version 1
+							< requires IPTables:Port
+							< indexing auto
+							< uniquein parent
+							< shortname v6exception
+							< title IPv6 Exception
+							< description IPv6 Port exception
+							< explanation rule.html
+							< emptytext No exceptions configured for this port.
+							
+							< capabilities create update delete admin
+							
+							< metatype derived
+							< metabase Meta:IPTables:Rule
+							< metadescription $state$ $ip$$subnet6$
+							
+	string ip				: IPv6 address
+							< regexp [:ipv6:]
+							< example fe80::200:f8ff:fe21:67cf
+							< gridwidth 38
+							< textwidth 18
+	
+	enum subnet6			: Subnet
+							< example /128
 							< gridwidth 40
 							< textwidth 18
 							< sameline true
@@ -135,7 +193,30 @@ enum subnet
 	255.255.192.0			: /18
 	255.255.128.0			: /17
 	255.255.0.0				: /16
-	
+
+enum subnet6
+	/8						: /8
+	/16						: /16
+	/32						: /32
+	/48						: /48
+	/56						: /56
+	/64						: /64
+	/72						: /72
+	/80						: /80
+	/88						: /88
+	/96						: /96
+	/100					: /100
+	/104					: /104
+	/108					: /108
+	/112					: /112
+	/116					: /116
+	/120					: /120
+	/122					: /122
+	/124					: /124
+	/125					: /125
+	/126					: /126
+	/127					: /127
+	/128					: /128
 
 # ============================================================================
 # AUTHD

@@ -34,7 +34,8 @@ void cfgiptables::buildfromval (const value &v)
     out += "\n";
 	
 	out += "IPTABLES=\"/sbin/iptables\"\n";
-	out += "\n# Flush and Delete existing chaines\n";
+	out += "IP6TABLES=\"/sbin/ip6tables\"\n";
+	out += "\n# Flush and Delete existing chains\n";
 
 	out += "$IPTABLES -F openpanel || /bin/true\n";	
 	out += "$IPTABLES -F openpanel-allow || /bin/true\n";
@@ -43,10 +44,19 @@ void cfgiptables::buildfromval (const value &v)
 	out += "$IPTABLES -X openpanel || /bin/true\n";
 	out += "$IPTABLES -X openpanel-allow || /bin/true\n";
 	out += "$IPTABLES -X openpanel-deny || /bin/true\n\n\n";
+
+	out += "$IP6TABLES -F openpanel || /bin/true\n";	
+	out += "$IP6TABLES -F openpanel-allow || /bin/true\n";
+	out += "$IP6TABLES -F openpanel-deny || /bin/true\n";
+	out += "$IP6TABLES -F INPUT\n";
+	out += "$IP6TABLES -X openpanel || /bin/true\n";
+	out += "$IP6TABLES -X openpanel-allow || /bin/true\n";
+	out += "$IP6TABLES -X openpanel-deny || /bin/true\n\n\n";
 	
 	if (v["enabled"] == "false")
 	{
 		out += "$IPTABLES -P INPUT ACCEPT";
+		out += "$IP6TABLES -P INPUT ACCEPT";
 		return;
 	}
 
@@ -57,17 +67,27 @@ void cfgiptables::buildfromval (const value &v)
 	out += "$IPTABLES -N openpanel\n";
 	out += "$IPTABLES -N openpanel-allow\n";
 	out += "$IPTABLES -N openpanel-deny\n\n\n\n";
+	out += "$IP6TABLES -N openpanel\n";
+	out += "$IP6TABLES -N openpanel-allow\n";
+	out += "$IP6TABLES -N openpanel-deny\n\n\n\n";
 	
 	
 	// Configure accept / deny chains
 	out += "# Configure openpanel accept/deny behaviour\n";
 	out += "$IPTABLES -A openpanel-allow -j ACCEPT\n";
+	out += "$IP6TABLES -A openpanel-allow -j ACCEPT\n";
 	
 	// Define deny policy
 	if (_method == method_reject)
+	{
 		out += "$IPTABLES -A openpanel-deny -j REJECT\n\n\n";
+		out += "$IP6TABLES -A openpanel-deny -j REJECT\n\n\n";
+	}
 	else
+	{
 		out += "$IPTABLES -A openpanel-deny -j DROP\n\n\n";
+		out += "$IP6TABLES -A openpanel-deny -j DROP\n\n\n";
+	}
 
 	out += "# Sysadmin defined policies through openpanel\n";
 
@@ -108,6 +128,37 @@ void cfgiptables::buildfromval (const value &v)
                        "-j %s\n" %format (srcip, nmask, dport, target);
             }
 		}
+		foreach (rule, port["IPTables:Port:V6Rule"])
+		{
+			string target;
+			string srcip;
+			string nmask;
+			
+			srcip = rule["ip"].sval().filter ("0123456789:");
+			nmask = rule["subnet6"].sval().filter ("0123456789");
+			
+			if (! nmask) nmask = "128";
+			
+			caseselector (rule["state"])
+			{
+				incaseof ("permit") : target = "openpanel-allow"; break;
+				incaseof ("deny") : target = "openpanel-deny"; break;
+				defaultcase : target = "openpanel-deny"; break;
+			}
+			
+            if (port["filter"] == "tcp" || 
+                port["filter"] == "tcp-udp")
+            {
+                out += "$IP6TABLES -A openpanel -p tcp -s %s/%s --dport %i "
+                       "-j %s\n" %format (srcip, nmask, dport, target);
+            }
+            if (port["filter"] == "udp" || 
+                port["filter"] == "tcp-udp")
+            {
+                out += "$IP6TABLES -A openpanel -p udp -s %s/%s --dport %i "
+                       "-j %s\n" %format (srcip, nmask, dport, target);
+            }
+		}
 		
 		string ptarget;
 		caseselector (port["state"])
@@ -125,11 +176,15 @@ void cfgiptables::buildfromval (const value &v)
 		{
 			out += "$IPTABLES -A openpanel -p tcp -s 0.0.0.0/0 --dport %i "
 				   "-j %s\n" %format (dport, ptarget);
+			out += "$IP6TABLES -A openpanel -p tcp --dport %i "
+				   "-j %s\n" %format (dport, ptarget);
 		}
 		if (port["filter"] == "udp" || 
 				 port["filter"] == "tcp-udp")
 		{
 			out += "$IPTABLES -A openpanel -p udp -s 0.0.0.0/0 --dport %i "
+				   "-j %s\n" %format (dport, ptarget);
+			out += "$IP6TABLES -A openpanel -p udp --dport %i "
 				   "-j %s\n" %format (dport, ptarget);
 		}
 
@@ -138,16 +193,22 @@ void cfgiptables::buildfromval (const value &v)
 	// * Add global policy	
 	out += "$IPTABLES -I INPUT -m state --state RELATED,ESTABLISHED "
 		   "-j ACCEPT\n";
+	out += "$IP6TABLES -I INPUT -m state --state RELATED,ESTABLISHED "
+		   "-j ACCEPT\n";
 	out += "$IPTABLES -A INPUT -i lo -j openpanel-allow\n";
 	out += "$IPTABLES -A INPUT -j openpanel\n";
+	out += "$IP6TABLES -A INPUT -i lo -j openpanel-allow\n";
+	out += "$IP6TABLES -A INPUT -j openpanel\n";
 	
 	if (v["blockall"] == "true")
 	{
-		out += "$IPTABLES -P INPUT DROP";
+		out += "$IPTABLES -P INPUT DROP\n";
+		out += "$IP6TABLES -P INPUT DROP\n";
 	}
 	else
 	{
-		out += "$IPTABLES -P INPUT ACCEPT";
+		out += "$IPTABLES -P INPUT ACCEPT\n";
+		out += "$IP6TABLES -P INPUT ACCEPT\n";
 	}
 }
 
