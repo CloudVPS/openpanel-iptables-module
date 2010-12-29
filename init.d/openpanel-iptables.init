@@ -56,8 +56,8 @@ case "$1" in
 		$IP6TABLES -X openpanel-deny
 		;;
 	restart)
-		start
 		stop
+		start
 		;;
 	reload)
 		restart
