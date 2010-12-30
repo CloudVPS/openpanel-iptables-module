@@ -28,8 +28,9 @@ IPTABLES=/sbin/iptables
 IP6TABLES=/sbin/ip6tables
 
 start() {
+		/sbin/modprobe ip_conntrack_ftp 2>/dev/null || true
 		if [ -e /etc/openpanel/rc.firewall ]; then
-			/etc/openpanel/rc.firewall || true
+			/etc/openpanel/rc.firewall 2>/dev/null || true
 		fi
 }
 
@@ -61,10 +62,10 @@ case "$1" in
 		start
 		;;
 	stop)
-		stop
+		stop 2>/dev/null
 		;;
 	restart)
-		stop
+		stop 2>/dev/null
 		start
 		;;
 	reload)
