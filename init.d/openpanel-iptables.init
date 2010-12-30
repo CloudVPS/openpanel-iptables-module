@@ -27,13 +27,13 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin
 IPTABLES=/sbin/iptables
 IP6TABLES=/sbin/ip6tables
 
-case "$1" in
-	start)
+start() {
 		if [ -e /etc/openpanel/rc.firewall ]; then
-			/etc/openpanel/rc.firewall
+			/etc/openpanel/rc.firewall || true
 		fi
-		;;
-	stop)
+}
+
+stop() {
 		$IPTABLES -F openpanel || true
 		$IPTABLES -F openpanel-allow || true
 		$IPTABLES -F openpanel-deny || true
@@ -41,9 +41,9 @@ case "$1" in
 		$IPTABLES -P INPUT ACCEPT
 		$IPTABLES -F OUTPUT
 		$IPTABLES -P OUTPUT ACCEPT
-		$IPTABLES -X openpanel
-		$IPTABLES -X openpanel-allow
-		$IPTABLES -X openpanel-deny
+		$IPTABLES -X openpanel || true
+		$IPTABLES -X openpanel-allow || true
+		$IPTABLES -X openpanel-deny || true
 		$IP6TABLES -F openpanel || true
 		$IP6TABLES -F openpanel-allow || true
 		$IP6TABLES -F openpanel-deny || true
@@ -51,9 +51,17 @@ case "$1" in
 		$IP6TABLES -P INPUT ACCEPT
 		$IP6TABLES -F OUTPUT
 		$IP6TABLES -P OUTPUT ACCEPT
-		$IP6TABLES -X openpanel
-		$IP6TABLES -X openpanel-allow
-		$IP6TABLES -X openpanel-deny
+		$IP6TABLES -X openpanel || true
+		$IP6TABLES -X openpanel-allow || true
+		$IP6TABLES -X openpanel-deny || true
+}
+
+case "$1" in
+	start)
+		start
+		;;
+	stop)
+		stop
 		;;
 	restart)
 		stop
