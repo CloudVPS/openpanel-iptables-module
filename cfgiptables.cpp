@@ -55,8 +55,8 @@ void cfgiptables::buildfromval (const value &v)
 	
 	if (v["enabled"] == "false")
 	{
-		out += "$IPTABLES -P INPUT ACCEPT";
-		out += "$IP6TABLES -P INPUT ACCEPT";
+		out += "$IPTABLES -P INPUT ACCEPT\n";
+		out += "$IP6TABLES -P INPUT ACCEPT\n";
 		return;
 	}
 
