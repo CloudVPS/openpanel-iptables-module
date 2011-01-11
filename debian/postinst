@@ -35,8 +35,7 @@ case "$1" in
         #echo "Running update-rc.d"
         update-rc.d iptables start 14 2 3 4 5 . stop 14 0 1 6 . >/dev/null
         /sbin/iptables -L -n -v >/dev/null 2>&1
-        invoke-rc.d openpanel-core reload
-	invoke-rc.d iptables restart
+        invoke-rc.d iptables restart
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
