@@ -12,7 +12,7 @@
 module IPTables				< uuid 7b8b62c2-22e2-4e0e-b7b0-92cf22a48222
 							< version 1.0
 							< languages en_EN
-							< apitype xml
+							< apitype grace
 							< getconfig true
 							< license GPLv3
 							< author OpenPanel
