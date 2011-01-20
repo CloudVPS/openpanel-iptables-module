@@ -18,6 +18,16 @@ iptablesmodule.exe: $(OBJ)
 	$(LD) $(LDFLAGS) -o iptablesmodule.exe $(OBJ) $(LIBS) \
 	/usr/lib/openpanel-core/libcoremodule.a
 
+install:
+	mkdir -p ${DESTDIR}/var/openpanel/modules/IPTables.module
+	mkdir -p ${DESTDIR}/var/openpanel/conf/staging/IPTables
+	cp -rf ./iptablesmodule.app    ${DESTDIR}/var/openpanel/modules/IPTables.module/
+	ln -sf iptablesmodule.app/exec ${DESTDIR}/var/openpanel/modules/IPTables.module/action
+	cp     module.xml          ${DESTDIR}/var/openpanel/modules/IPTables.module/module.xml
+	install -m 755 verify      ${DESTDIR}/var/openpanel/modules/IPTables.module/verify
+	cp *.html ${DESTDIR}/var/openpanel/modules/IPTables.module
+	cp *.png ${DESTDIR}/var/openpanel/modules/IPTables.module
+
 clean:
 	rm -f *.o *.exe
 	rm -rf iptablesmodule.app
