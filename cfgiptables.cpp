@@ -192,7 +192,7 @@ void cfgiptables::buildfromval (const value &v)
 
 	// * Add global policy	
 	out += "$IPTABLES -I INPUT -p icmp -j ACCEPT\n";
-	out += "$IP6TABLES -I INPUT -p icmp -j ACCEPT\n";
+	out += "$IP6TABLES -I INPUT -p icmpv6 -j ACCEPT\n";
 	out += "$IPTABLES -I INPUT -m state --state RELATED,ESTABLISHED "
 		   "-j ACCEPT\n";
 	out += "$IP6TABLES -I INPUT -m state --state RELATED,ESTABLISHED "
