@@ -10,10 +10,19 @@
 # section of the OpenPanel website on http://www.openpanel.com/
 
 
-if [ ! -e /proc/net/ip_tables_targets ]; then
+# try to run the IP tables executable. We can't just run it, because then it 
+# won't try to talk to the kernel module. Instead, run it with the -L command.
+# For performance reasons, list only one chain, known to exist
+iptables -L INPUT 2>/dev/null >/dev/null || {
   echo "quit" >&3
   exit 1
-fi
+}
+
+# same thing for ip6
+ip6tables -L INPUT 2>/dev/null >/dev/null || {
+  echo "quit" >&3
+  exit 1
+}
 
 echo "quit" >&3
 exit 0
