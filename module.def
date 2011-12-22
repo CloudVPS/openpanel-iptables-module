@@ -163,6 +163,73 @@ class IPTables:Port:V6Rule	< uuid 2b400ea7-417c-4e87-b82c-a5a5adb58307
 							< gridwidth 20
 
 
+# ----------------------------------------------------------------------------
+class IPTables:Port:V4Fwd	< uuid 360349a5-8463-4071-84ed-c6fe33f3527b
+							< version 1
+							< requires IPTables:Port
+							< indexing auto
+							< uniquein parent
+							< shortname v4forward
+							< title IPv4 Forwarding Exception
+							< explanation rule.h5ml
+							
+							< capabilities create update delete admin
+							
+							< metatype derived
+							< metabase Meta:IPTables:Rule
+							< metadescription $state$ $ip$$subnet$
+							
+	string ip				: IP address
+							< regexp [:ipv4:]
+							< example 10.20.30.40
+							< gridwidth 38
+							< textwidth 18
+	
+	enum subnet				: Subnet
+							< regexp [:ipv4:]
+							< example 255.255.255.0
+							< gridwidth 40
+							< textwidth 18
+							< sameline true
+	
+	enum state				: Access
+							< default permit
+							< gridwidth 20
+
+
+# ----------------------------------------------------------------------------
+class IPTables:Port:V6Fwd	< uuid 255cd56d-3a6e-4582-a582-a68b9e158118
+							< version 1
+							< requires IPTables:Port
+							< indexing auto
+							< uniquein parent
+							< shortname v6forward
+							< title IPv6 Forwarding Exception
+							< explanation rule.h5ml
+							
+							< capabilities create update delete admin
+							
+							< metatype derived
+							< metabase Meta:IPTables:Rule
+							< metadescription $state$ $ip$$subnet6$
+							
+	string ip				: IPv6 address
+							< regexp [:ipv6:]
+							< example fe80::200:f8ff:fe21:67cf
+							< gridwidth 38
+							< textwidth 18
+	
+	enum subnet6			: Subnet
+							< example /128
+							< gridwidth 40
+							< textwidth 18
+							< sameline true
+	
+	enum state				: Access
+							< default permit
+							< gridwidth 20
+							
+
 # ============================================================================
 # ENUMS
 # ============================================================================

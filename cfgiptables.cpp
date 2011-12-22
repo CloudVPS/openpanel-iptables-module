@@ -40,16 +40,20 @@ void cfgiptables::buildfromval (const value &v)
 	out += "$IPTABLES -F openpanel || /bin/true\n";	
 	out += "$IPTABLES -F openpanel-allow || /bin/true\n";
 	out += "$IPTABLES -F openpanel-deny || /bin/true\n";
+	out += "$IPTABLES -F openpanel-fwd || /bin/true\n";
 	out += "$IPTABLES -F INPUT\n";
 	out += "$IPTABLES -X openpanel || /bin/true\n";
 	out += "$IPTABLES -X openpanel-allow || /bin/true\n";
 	out += "$IPTABLES -X openpanel-deny || /bin/true\n\n\n";
+	out += "$IPTABLES -X openpanel-fwd || /bin/true\n";
 
-	out += "$IP6TABLES -F openpanel || /bin/true\n";	
+	out += "$IP6TABLES -F openpanel || /bin/true\n";
+	out += "$IP6TABLES -F openpanel-fwd || /bin/true\n";
 	out += "$IP6TABLES -F openpanel-allow || /bin/true\n";
 	out += "$IP6TABLES -F openpanel-deny || /bin/true\n";
 	out += "$IP6TABLES -F INPUT\n";
 	out += "$IP6TABLES -X openpanel || /bin/true\n";
+	out += "$IP6TABLES -X openpanel-fwd || /bin/true\n";
 	out += "$IP6TABLES -X openpanel-allow || /bin/true\n";
 	out += "$IP6TABLES -X openpanel-deny || /bin/true\n\n\n";
 	
@@ -57,6 +61,8 @@ void cfgiptables::buildfromval (const value &v)
 	{
 		out += "$IPTABLES -P INPUT ACCEPT\n";
 		out += "$IP6TABLES -P INPUT ACCEPT\n";
+		out += "$IPTABLES -P FORWARD ACCEPT\n";
+		out += "$IP6TABLES -P FORWARD ACCEPT\n";
 		return;
 	}
 
@@ -65,12 +71,13 @@ void cfgiptables::buildfromval (const value &v)
 	// * Add global chains
 	out += "\n# Create new chains\n";
 	out += "$IPTABLES -N openpanel\n";
+	out += "$IPTABLES -N openpanel-fwd\n";
 	out += "$IPTABLES -N openpanel-allow\n";
 	out += "$IPTABLES -N openpanel-deny\n\n\n\n";
 	out += "$IP6TABLES -N openpanel\n";
+	out += "$IP6TABLES -N openpanel-fwd\n";
 	out += "$IP6TABLES -N openpanel-allow\n";
 	out += "$IP6TABLES -N openpanel-deny\n\n\n\n";
-	
 	
 	// Configure accept / deny chains
 	out += "# Configure openpanel accept/deny behaviour\n";
@@ -128,6 +135,37 @@ void cfgiptables::buildfromval (const value &v)
                        "-j %s\n" %format (srcip, nmask, dport, target);
             }
 		}
+		foreach (rule, port["IPTables:Port:V4Fwd"])
+		{
+			string target;
+			string srcip;
+			string nmask;
+			
+			srcip = rule["ip"].sval().filter ("0123456789.");
+			nmask = rule["subnet"].sval().filter ("0123456789.");
+			
+			if (! nmask) nmask = "255.255.255.255";
+			
+			caseselector (rule["state"])
+			{
+				incaseof ("permit") : target = "openpanel-allow"; break;
+				incaseof ("deny") : target = "openpanel-deny"; break;
+				defaultcase : target = "openpanel-deny"; break;
+			}
+			
+            if (port["filter"] == "tcp" || 
+                port["filter"] == "tcp-udp")
+            {
+                out += "$IPTABLES -A openpanel-fwd -p tcp -s %s/%s --dport %i "
+                       "-j %s\n" %format (srcip, nmask, dport, target);
+            }
+            if (port["filter"] == "udp" || 
+                port["filter"] == "tcp-udp")
+            {
+                out += "$IPTABLES -A openpanel-fwd -p udp -s %s/%s --dport %i "
+                       "-j %s\n" %format (srcip, nmask, dport, target);
+            }
+        }
 		foreach (rule, port["IPTables:Port:V6Rule"])
 		{
 			string target;
@@ -156,6 +194,37 @@ void cfgiptables::buildfromval (const value &v)
                 port["filter"] == "tcp-udp")
             {
                 out += "$IP6TABLES -A openpanel -p udp -s %s/%s --dport %i "
+                       "-j %s\n" %format (srcip, nmask, dport, target);
+            }
+		}
+		foreach (rule, port["IPTables:Port:V6Fwd"])
+		{
+			string target;
+			string srcip;
+			string nmask;
+			
+			srcip = rule["ip"].sval().filter ("0123456789:");
+			nmask = rule["subnet6"].sval().filter ("0123456789");
+			
+			if (! nmask) nmask = "128";
+			
+			caseselector (rule["state"])
+			{
+				incaseof ("permit") : target = "openpanel-allow"; break;
+				incaseof ("deny") : target = "openpanel-deny"; break;
+				defaultcase : target = "openpanel-deny"; break;
+			}
+			
+            if (port["filter"] == "tcp" || 
+                port["filter"] == "tcp-udp")
+            {
+                out += "$IP6TABLES -A openpanel-fwd -p tcp -s %s/%s --dport %i "
+                       "-j %s\n" %format (srcip, nmask, dport, target);
+            }
+            if (port["filter"] == "udp" || 
+                port["filter"] == "tcp-udp")
+            {
+                out += "$IP6TABLES -A openpanel-fwd -p udp -s %s/%s --dport %i "
                        "-j %s\n" %format (srcip, nmask, dport, target);
             }
 		}
@@ -192,29 +261,33 @@ void cfgiptables::buildfromval (const value &v)
 
 	// * Add global policy	
 	out += "$IPTABLES -I INPUT -p icmp -j ACCEPT\n";
-	out += "$IP6TABLES -I INPUT -p icmpv6 -j ACCEPT\n";
+	out += "$IP6TABLES -I INPUT -p icmp -j ACCEPT\n";
 	out += "$IPTABLES -I INPUT -m state --state RELATED,ESTABLISHED "
 		   "-j ACCEPT\n";
 	out += "$IP6TABLES -I INPUT -m state --state RELATED,ESTABLISHED "
 		   "-j ACCEPT\n";
 	out += "$IPTABLES -A INPUT -i lo -j openpanel-allow\n";
 	out += "$IPTABLES -A INPUT -j openpanel\n";
+	out += "$IPTABLES -A FORWARD -j openpanel-fwd\n";
 	out += "$IP6TABLES -A INPUT -i lo -j openpanel-allow\n";
 	out += "$IP6TABLES -A INPUT -j openpanel\n";
+	out += "$IP6TABLES -A FORWARD -j openpanel-fwd\n";
 	
 	if (v["blockall"] == "true")
 	{
 		out += "$IPTABLES -P INPUT DROP\n";
 		out += "$IP6TABLES -P INPUT DROP\n";
+		out += "$IPTABLES -P FORWARD DROP\n";
+		out += "$IP6TABLES -P FORWARD DROP\n";
 	}
 	else
 	{
 		out += "$IPTABLES -P INPUT ACCEPT\n";
 		out += "$IP6TABLES -P INPUT ACCEPT\n";
+		out += "$IPTABLES -P FORWARD ACCEPT\n";
+		out += "$IP6TABLES -P FORWARD ACCEPT\n";
 	}
 }
-
-
 
 //	==========================================================================
 /// METHOD: cfgiptables::writefile
@@ -224,5 +297,3 @@ bool cfgiptables::writefile (void)
 	fs.save (_conffile, _cfglines);
 	return true;
 }
-
-		
