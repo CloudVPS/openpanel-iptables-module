@@ -171,6 +171,7 @@ class IPTables:Port:V4Fwd	< uuid 360349a5-8463-4071-84ed-c6fe33f3527b
 							< uniquein parent
 							< shortname v4forward
 							< title IPv4 Forwarding Exception
+							< description IPv4 Forwarding Exception
 							< explanation rule.h5ml
 							
 							< capabilities create update delete admin
@@ -205,6 +206,7 @@ class IPTables:Port:V6Fwd	< uuid 255cd56d-3a6e-4582-a582-a68b9e158118
 							< uniquein parent
 							< shortname v6forward
 							< title IPv6 Forwarding Exception
+							< description IPv6 Forwarding Exception
 							< explanation rule.h5ml
 							
 							< capabilities create update delete admin
