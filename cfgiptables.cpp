@@ -273,6 +273,26 @@ void cfgiptables::buildfromval (const value &v)
 	out += "$IP6TABLES -A INPUT -j openpanel\n";
 	out += "$IP6TABLES -A FORWARD -j openpanel-fwd\n";
 	
+	if (fs.isdir ("/etc/openpanel/iptables.d"))
+	{
+		foreach (fent, fs.dir ("/etc/openpanel/iptables.d"))
+		{
+			if (fent.id().sval().strstr(".inc") < 0) continue;
+			file f;
+			f.openread (fent["path"]);
+			foreach (ln, f)
+			{
+				if ((ln.strncmp("$IPTABLES",9)==0) ||
+				    (ln.strncmp("$IP6TABLES",10)==0))
+				{
+					out += ln;
+					out += "\n";
+				}
+			}
+			f.close();
+		}
+	}
+	
 	if (v["blockall"] == "true")
 	{
 		out += "$IPTABLES -P INPUT DROP\n";
