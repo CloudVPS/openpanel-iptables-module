@@ -1,0 +1,9 @@
+The IPTables module will include files with the ".inc" extension from
+/etc/openpanel/iptables.d into the iptables output.
+
+Files in this directory must contain lines starting with either:
+	$IPTABLES for rules related to IPv4
+	$IP6TABLES for rules related to IPv6
+
+Includes are handled after the rules defined inside the module. If you
+need a rule to be on top, use -I instead of -A.
