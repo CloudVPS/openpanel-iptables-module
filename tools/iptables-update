@@ -14,8 +14,9 @@ if [ -f $SCRIPT_NAME ]; then
 	
 	# optional: Implied SNAT
 	
-	if [ -e /etc/openpanel/iptables.nat-gateway ]; then
-	  snat_device=$(cat /etc/openpanel/iptables.nat-gateway)
+	if [ -e /etc/openpanel/ha/nat-gw ]; then
+	  . /etc/openpanel/ha/nat-gw
+	  snat_device="$E_IFACE"
 	  if [ -z "$snat_device" ]; then
 	    snat_device=eth0
 	  fi
