@@ -11,6 +11,20 @@ SCRIPT_NAME="/etc/openpanel/rc.firewall"
 
 if [ -f $SCRIPT_NAME ]; then
 	$SCRIPT_NAME || exit 1
+	
+	# optional: Implied SNAT
+	
+	if [ -e /etc/openpanel/iptables.nat-gateway ]; then
+	  snat_device=$(cat /etc/openpanel/iptables.nat-gateway)
+	  if [ -z "$snat_device" ]; then
+	    snat_device=eth0
+	  fi
+	  
+	  extip=$(ip -f inet addr list dev $snat_device | grep inet | head -1 | sed -e "s/.*inet //;s@/.*@@")
+	  
+	  /sbin/iptables -t nat -A POSTROUTING -o $snat_device -j SNAT --to $extip
+	fi
+	
 	/etc/init.d/iptables save
 else
 	echo "No IpTables configuration script found"
