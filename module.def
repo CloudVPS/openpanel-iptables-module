@@ -197,6 +197,30 @@ class IPTables:Port:V4Fwd	< uuid 360349a5-8463-4071-84ed-c6fe33f3527b
 							< default permit
 							< gridwidth 20
 
+# ----------------------------------------------------------------------------
+class IPTables:Port:NATv4	< uuid 3bba2348-9b1d-4487-81a1-abb698988bb1
+							< version 1
+							< requires IPTables:Port
+							< indexing auto
+							< uniquein parent
+							< shortname nat
+							< title IPv4 NAT rule
+							< description IPv4 NAT rule
+							
+							< capabilities create update delete admin
+							
+							< metatype derived
+							< metabase Meta:IPTables:Rule
+							< metadescription dnat to $ip$
+							
+	string ip				: Destination IP address
+							< regexp [:ipv4:]
+							< example 10.20.30.40
+							< gridwidth 38
+							< textwidth 18
+							
+	integer dport			: Destination port
+							< gridwidth 20
 
 # ----------------------------------------------------------------------------
 class IPTables:Port:V6Fwd	< uuid 255cd56d-3a6e-4582-a582-a68b9e158118

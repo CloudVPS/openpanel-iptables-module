@@ -197,6 +197,17 @@ void cfgiptables::buildfromval (const value &v)
                        "-j %s\n" %format (srcip, nmask, dport, target);
             }
 		}
+		foreach (rule, port["IPTables:Port:NATv4"])
+		{
+			string target;
+			int todport;
+			
+			target = rule["destip"].sval().filter ("0123456789.");
+			todport = rule["dport"];
+			
+			out += "$IPTABLES -t nat -A PREROUTING -p tcp --dport %i "
+				   "-j DNAT --to %s:%i\n" %format (dport,target,todport);
+		}
 		foreach (rule, port["IPTables:Port:V6Fwd"])
 		{
 			string target;
