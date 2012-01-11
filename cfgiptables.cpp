@@ -207,6 +207,8 @@ void cfgiptables::buildfromval (const value &v)
 			
 			out += "$IPTABLES -t nat -A PREROUTING -p tcp --dport %i "
 				   "-j DNAT --to %s:%i\n" %format (dport,target,todport);
+			out += "$IPTABLES -A openpanel-fwd -p tcp --dport %i "
+				   "-j ACCEPT\n" %format (dport);
 		}
 		foreach (rule, port["IPTables:Port:V6Fwd"])
 		{
