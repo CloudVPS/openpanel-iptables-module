@@ -288,11 +288,12 @@ void cfgiptables::buildfromval (const value &v)
 	
 	if (fs.isdir ("/etc/openpanel/iptables.d"))
 	{
-		foreach (fent, fs.dir ("/etc/openpanel/iptables.d"))
+		value dls = fs.dir ("/etc/openpanel/iptables.d");
+		foreach (fent, dls)
 		{
 			if (fent.id().sval().strstr(".inc") < 0) continue;
 			file f;
-			f.openread (fent["path"]);
+			f.openread (fent["path"].sval());
 			foreach (ln, f)
 			{
 				if ((ln.strncmp("$IPTABLES",9)==0) ||
