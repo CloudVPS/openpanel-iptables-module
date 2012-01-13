@@ -213,7 +213,7 @@ class IPTables:Port:NATv4	< uuid 3bba2348-9b1d-4487-81a1-abb698988bb1
 							< metabase Meta:IPTables:Rule
 							< metadescription dnat to $ip$
 							
-	string ip				: Destination IP address
+	string destip			: Destination IP address
 							< regexp [:ipv4:]
 							< example 10.20.30.40
 							< gridwidth 38
