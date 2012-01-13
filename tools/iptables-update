@@ -26,6 +26,18 @@ if [ -f $SCRIPT_NAME ]; then
 	  /sbin/iptables -t nat -A POSTROUTING -o $snat_device -j SNAT --to $extip
 	fi
 	
+	IPTABLES=/sbin/iptables
+	IP6TABLES=/sbin/ip6tables
+	
+	export IPTABLES
+	export IP6TABLES
+	
+	if [ -d /etc/openpanel/iptables.d ]; then
+	  ls -1 /etc/openpanel/iptables.d/*.inc | while read scr;do
+	    sh $scr
+	  done
+	fi
+	
 	/etc/init.d/iptables save
 else
 	echo "No IpTables configuration script found"
