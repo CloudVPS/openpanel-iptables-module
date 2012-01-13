@@ -30,6 +30,7 @@ set -e
 
 case "$1" in
     configure)
+    	mkdir -p /etc/openpanel/iptables.d
         mkdir -p /var/openpanel/conf/staging/IPTables
         chown openpanel-core:openpanel-authd /var/openpanel/conf/staging/IPTables
         #echo "Running update-rc.d"
