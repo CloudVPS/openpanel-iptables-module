@@ -42,6 +42,8 @@ void cfgiptables::buildfromval (const value &v)
 	out += "$IPTABLES -F openpanel-deny || /bin/true\n";
 	out += "$IPTABLES -F openpanel-fwd || /bin/true\n";
 	out += "$IPTABLES -F INPUT\n";
+	out += "$IPTABLES -t nat -F PREROUTING\n";
+	out += "$IPTABLES -t nat -F POSTROUTING\n";
 	out += "$IPTABLES -X openpanel || /bin/true\n";
 	out += "$IPTABLES -X openpanel-allow || /bin/true\n";
 	out += "$IPTABLES -X openpanel-deny || /bin/true\n\n\n";
