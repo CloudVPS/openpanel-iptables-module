@@ -19,9 +19,6 @@ using namespace moderr;
 
 APPOBJECT(iptablesmodule);
 
-
-
-
 //  =========================================================================
 /// Main method.
 //  =========================================================================
@@ -43,55 +40,40 @@ int iptablesmodule::main (void)
 	caseselector (data["OpenCORE:Command"])
 	{
 		incaseof ("create") : 
-			if (! checkconfig (data))
-				return 0;
-
-			if(! writeconfiguration (data))
-				return false;
+			if (! checkconfig (data)) return 0;
+			if (! writeconfiguration (data)) return 0;
 			break;
 
 		incaseof ("update") :
-			if (! checkconfig (data))
-				return 0;
-
-			if (! writeconfiguration (data))
-				return 0;
+			if (! checkconfig (data)) return 0;
+			if (! writeconfiguration (data)) return 0;
 			break;
 			
 		incaseof ("getconfig") :
-			if (! readconfiguration ())
-				return 0;
+			if (! readconfiguration ()) return 0;
 			break;
 
 
 		incaseof ("delete") :
-			if (! checkconfig (data))
-				return 0;
-
-			if (! writeconfiguration (data))
-				return 0;
+			if (! checkconfig (data)) return 0;
+			if (! writeconfiguration (data)) return 0;
 			break;
 		 	
 		incaseof ("validate") : ;
 		incaseof ("commit") : 
-			if (! commitconfig ())
-				return 0;
+			if (! commitconfig ()) return 0;
 			break;
 			
 		incaseof ("revert") : 
-			if (! revertconfig ())
-				return 0;
+			if (! revertconfig ()) return 0;
 			break;
 			
 		defaultcase:
-			sendresult (err_command, 
-						"Unsupported command");
+			sendresult (err_command, "Unsupported command");
 			return 0;
 	}
 
-	// Can't quit when there is nothing done yet
 	authd.quit ();
-
 	sendresult (moderr::ok, "");
 
 	return 0;
@@ -189,6 +171,11 @@ bool iptablesmodule::readconfiguration (void)
 	               				 ) ->
 	               				$("443",
 	               					$("description","Websites (HTTPS)") ->
+	               					$("state", "permit") ->
+	               					$("filter", "tcp")
+	               				 ) ->
+	               				$("993",
+	               					$("description", "E-mail (IMAPS)") ->
 	               					$("state", "permit") ->
 	               					$("filter", "tcp")
 	               				 ) ->
@@ -294,8 +281,9 @@ bool iptablesmodule::reloadservices (void)
 //  =========================================================================
 /// domainModule::checkconfig
 //  =========================================================================
-bool iptablesmodule::checkconfig (value &v)
+bool iptablesmodule::checkconfig (value &vv)
 {
+	value &v = vv["IPTables"];
 	// TODO:
 	
 	// We will get the full iptables configuration from opencore,
@@ -309,24 +297,21 @@ bool iptablesmodule::checkconfig (value &v)
 	// * enabled: true / false
 	// * blockall: true / false
 	
-	if (! v["IPTables"].exists ("enabled"))
+	if (! v.exists ("enabled"))
 	{
 		sendresult (moderr::err_value, 
 					"No item 'enabled' found in class IPTables");
 		return false;
 	}
 	
-	
-	if (! v["IPTables"].exists ("blockall"))
+	if (! v.exists ("blockall"))
 	{
 		sendresult (moderr::err_value, 
 					"No item 'blockall' found in class IPTables");	
 		return false;
 	}
 	
-	
-	// Check each Port's content
-	foreach (port, v["IPTables"]["IPTables:Port"])
+	foreach (port, v["IPTables:Port"])
 	{
 	
 		// .. TODO ..
@@ -360,8 +345,6 @@ bool iptablesmodule::checkconfig (value &v)
 			return false;
 		}
 		
-	
-		// Check each rule's content
 		foreach (rule, port["IPTables:Port:Rule"])
 		{
 			// .. TODO ..
@@ -401,10 +384,6 @@ bool iptablesmodule::checkconfig (value &v)
 		}
 	}
 	
-	
-	
-	// No errors during validation, 
-	// main () will proceed request
 	return true;
 }
 
