@@ -317,8 +317,8 @@ enum subnet6
 authd fileops
 	match rc.firewall		: /etc/openpanel
 							< user root
-							< group root
-							< perms 0700
+							< group openpanel
+							< perms 0770
 
 authd scripts
 	script iptables-update
