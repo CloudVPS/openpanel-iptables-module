@@ -317,7 +317,7 @@ enum subnet6
 authd fileops
 	match rc.firewall		: /etc/openpanel
 							< user root
-							< group openpanel
+							< group openpanel-core
 							< perms 0770
 
 authd scripts
