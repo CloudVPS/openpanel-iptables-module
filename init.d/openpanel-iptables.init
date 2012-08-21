@@ -29,7 +29,9 @@ IP6TABLES=/sbin/ip6tables
 
 start() {
 		/sbin/modprobe ip_conntrack_ftp 2>/dev/null || true
-		if [ -e /etc/openpanel/rc.firewall ]; then
+		if [ -e /var/openpanel/tools/iptables-update ]; then
+			/var/openpanel/tools/iptables-update 2>/dev/null || true
+		else
 			/etc/openpanel/rc.firewall 2>/dev/null || true
 		fi
 }
